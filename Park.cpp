@@ -13,12 +13,14 @@ void Park::set_in_begin(int N_grass)
 		while (1)
 		{
 			x_ = rand() % 25;
-			y_ = rand() % 70;
+			y_ = rand() % 40;
 			if (mat_g[x_][y_] == nullptr)
 			{
-				Grass grass(x_, y_, 1);
-				animals.push_back(&grass);
-				mat_g[x_][y_] = &grass;
+				Grass* p_grass= new Grass (x_, y_, 1);
+				animals.push_back(p_grass);
+				mat_g[x_][y_] = p_grass;
+				std::cout << p_grass << std::endl;
+				p_grass->print();
 				break;
 			}
 		}
@@ -30,31 +32,35 @@ void Park::set_in_begin(int N_grass)
 
 void Park::print()
 {
-	for (int k = 0; k < 70; k++)
-		std::cout << "_" ;
-	for (int i = 0; i < 25; i++)
+	for (int k = 0; k < COL; k++)
+		std::cout << k<<std::flush;
+	std::cout << std::endl;
+	for (int i = 0; i < ROW; i++)
 	{
-		for (int j = 0; j < 70; j++)
+		for (int j = 0; j < COL; j++)
 		{
 			if (mat_g[i][j] == nullptr)
-				std::cout << " ";
+				std::cout << "_";
 			else
 				std::cout << "G";
 		}
-		std::cout <<"|"<< std::endl;
+		std::cout <<i<< std::endl;
 	}
-	for (int k = 0; k < 70; k++)
-		std::cout << "_" ;
+	for (int k = 0; k < COL; k++)
+		std::cout << "x"<<std::flush ;
+	std::cout <<  std::endl;
+	std::cout << "The count of grass is: " << animals.size() << std::endl;
 }
 
 void Park::change_iteration()
 {
-	for (int i=0; i<animals.size(); i++)
+	for (auto it=animals.begin(); it!=animals.end(); ++it)
 	{
-		std::cout << animals[i] << std::endl;
-		//animals[i]->living( &(mat_g[0][0]),  &animals);
+		(*it)->living( &(mat_g[0][0]),  &animals);
 
 	}
+
+	animals.remove_if([](Live* p) { return (p->get_alive()) == 0; }); 
 }
 
 

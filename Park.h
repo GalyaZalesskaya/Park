@@ -1,16 +1,16 @@
 #pragma once
 #include "Live.h"
 #include "Grass.h"
-#include <vector>
+#include <list>
 #include <utility>
 
 //const int ROW = 25;
-//const int COL = 70;
+//const int COL = 40;
 class Park
 {
 public:
-	std::vector<Live*> animals;
-	Live* mat_g[25][70];
+	std::list<Live*> animals;
+	Live* mat_g[25][40];
 
 	void print();
 	void change_iteration();
